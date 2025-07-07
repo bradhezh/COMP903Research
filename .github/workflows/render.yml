@@ -1,0 +1,57 @@
+name: Render Pipeline
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches: [master]
+    # opened means created
+    types: [opened, synchronize]
+
+jobs:
+  full:
+    name: Full Pipeline on Render
+    runs-on: ubuntu-latest
+    # permissions needed to publish docs
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 10
+      - name: Install Dependencies
+        run: pnpm i --frozen-lockfile
+      - name: Lint
+        run: pnpm lint
+      - name: Test
+        # flexible or sensitive for testing, as env vars in the pipeline
+        #env:
+        #  DB_URL_TEST: ${{ secrets.DB_URL_TEST }}
+        run: pnpm test
+      - name: Build
+        run: pnpm build
+      - name: Trigger Deployment on Render
+        if: false
+        # only deploy on (after) pushing (merging) to "master"
+        #if: ${{ github.event_name == 'push' }}
+        run: curl https://api.render.com/deploy/srv-${{ secrets.RENDER_SERVICE_ID }}?key=${{ secrets.RENDER_API_KEY }}
+      - name: Generate Documentation
+        if: false
+        run: pnpm run docs
+      - name: Publish Documentation to the Public Repository
+        if: false
+        #if: ${{ github.event_name == 'push' }}
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          personal_token: ${{ secrets.PERSONAL_TOKEN }}
+          publish_dir: ./docs
+          external_repository: bradhezh/monorepo-doc
+          publish_branch: main
