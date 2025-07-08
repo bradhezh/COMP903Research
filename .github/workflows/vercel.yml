@@ -36,6 +36,30 @@ jobs:
       #  env:
       #    DB_URL_TEST: ${{ secrets.DB_URL_TEST }}
       #  run: pnpm test
+      - name: Format
+        run: pnpm format
+      - name: Setup Python 3.12
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12'
+      - name: Train
+        run: |
+          python -m venv utils/train/venv
+          source utils/train/venv/bin/activate
+          pip install -r utils/train/requirements.txt
+          pnpm train
+        shell: bash
+      - name: Setup Python 3.9
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+      - name: Convert
+        run: |
+          python -m venv utils/convert/venv
+          source utils/convert/venv/bin/activate
+          pip install -r utils/convert/requirements.txt
+          pnpm convert
+        shell: bash
       - name: Build
         run: pnpm build
       - name: Trigger Deployment on Vercel
