@@ -1,6 +1,6 @@
 {
   "framework": null,
-  "buildCommand": "",
+  "buildCommand": null,
   "outputDirectory": "dist",
   "git": {
     "deploymentEnabled": false

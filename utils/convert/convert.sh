@@ -8,5 +8,5 @@ tensorflowjs_converter \
   public/model/tfjs/
 python -m tf2onnx.convert \
   --saved-model public/model/saved_model \
-  --output public/model/mnist.onnx \
+  --output public/model/onnx/mnist.onnx \
   --opset 13
