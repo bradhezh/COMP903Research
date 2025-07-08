@@ -66,7 +66,9 @@ jobs:
         #if: false
         # only deploy on (after) pushing (merging) to "main"
         if: ${{ github.event_name == 'push' }}
-        run: curl -X POST ${{ secrets.VERCEL_DEPLOY_HOOK_URL }}
+        run: |
+          pnpm add -D vercel
+          pnpm vercel --prod --prebuild --token=${{ secrets.VERCEL_TOKEN }} --yes
       #- name: Generate Documentation
       #  run: pnpm run docs
       #- name: Publish Documentation to the Public Repository

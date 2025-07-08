@@ -6,7 +6,7 @@
   "scripts": {
     "format": "node utils/format/format.cjs",
     "train": "if [ ! -f mnist.npz ]; then curl -L -o mnist.npz https://storage.googleapis.com/tensorflow/tf-keras-datasets/mnist.npz; fi && utils/train/venv/bin/python utils/train/train.py",
-    "convert": "utils/convert/convert.sh",
+    "convert": "bash utils/convert/convert.sh",
     "build": "tsc -b && vite build",
     "dev": "vite",
     "preview": "vite preview",

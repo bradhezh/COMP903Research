@@ -1,4 +1,3 @@
-echo $PATH
 source utils/convert/venv/bin/activate
 tensorflowjs_converter \
   --input_format=tf_saved_model \
