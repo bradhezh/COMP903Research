@@ -33,3 +33,4 @@ mnist.npz
 venv/
 __pycache__/
 *.pyc
+.vercel
