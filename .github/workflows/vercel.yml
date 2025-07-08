@@ -68,7 +68,7 @@ jobs:
         if: ${{ github.event_name == 'push' }}
         run: |
           pnpm add -D vercel
-          pnpm vercel --prod --prebuilt --token=${{ secrets.VERCEL_TOKEN }} --yes
+          pnpm vercel --token=${{ secrets.VERCEL_TOKEN }} --prod --yes
       #- name: Generate Documentation
       #  run: pnpm run docs
       #- name: Publish Documentation to the Public Repository
