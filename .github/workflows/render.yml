@@ -3,9 +3,9 @@ name: Render Pipeline
 on:
   push:
     branches:
-      - master
+      - main
   pull_request:
-    branches: [master]
+    branches: [main]
     # opened means created
     types: [opened, synchronize]
 
@@ -40,7 +40,7 @@ jobs:
         run: pnpm build
       - name: Trigger Deployment on Render
         #if: false
-        # only deploy on (after) pushing (merging) to "master"
+        # only deploy on (after) pushing (merging) to "main"
         if: ${{ github.event_name == 'push' }}
         run: curl https://api.render.com/deploy/srv-${{ secrets.RENDER_SERVICE_ID }}?key=${{ secrets.RENDER_API_KEY }}
       #- name: Generate Documentation
