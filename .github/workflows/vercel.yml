@@ -63,9 +63,9 @@ jobs:
       - name: Build
         run: pnpm build
       - name: Trigger Deployment on Vercel
-        if: false
+        #if: false
         # only deploy on (after) pushing (merging) to "main"
-        #if: ${{ github.event_name == 'push' }}
+        if: ${{ github.event_name == 'push' }}
         run: curl -X POST ${{ secrets.VERCEL_DEPLOY_HOOK_URL }}
       #- name: Generate Documentation
       #  run: pnpm run docs
