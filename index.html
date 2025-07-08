@@ -39,7 +39,7 @@
       const output = await session.run({keras_tensor: input})
       const scores = output[Object.keys(output)[0]].data
       const prediction = scores.indexOf(Math.max(...scores))
-      console.log(`Prediction: ${prediction}, Actual: ${label}`)
+      console.log(`Prediction: ${prediction}, Actual: ${label}`);
     }
 
     tfjsTest()
