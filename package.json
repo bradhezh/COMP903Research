@@ -4,9 +4,11 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
+    "format": "node utils/format/format.cjs",
+    "train": "if [ ! -f mnist.npz ]; then curl -L -o mnist.npz https://storage.googleapis.com/tensorflow/tf-keras-datasets/mnist.npz; fi && utils/train/venv/bin/python utils/train/train.py",
+    "convert": "utils/convert/convert.sh",
     "build": "tsc -b && vite build",
     "dev": "vite",
-    "test": "vitest run --passWithNoTests",
     "preview": "vite preview",
     "lint": "eslint ."
   },
@@ -16,8 +18,6 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.25.0",
-    "@testing-library/jest-dom": "^6.6.3",
-    "@testing-library/react": "^16.3.0",
     "@types/node": "^22.15.18",
     "@types/react": "^19.1.2",
     "@types/react-dom": "^19.1.2",
@@ -26,10 +26,9 @@
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.19",
     "globals": "^16.0.0",
-    "jsdom": "^26.1.0",
+    "mnist": "^1.1.0",
     "typescript": "~5.8.3",
     "typescript-eslint": "^8.30.1",
-    "vite": "^6.3.5",
-    "vitest": "^3.1.3"
+    "vite": "^6.3.5"
   }
 }

@@ -29,4 +29,4 @@ model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accur
 model.fit(x_train, y_train, epochs=3, batch_size=64, validation_data=(x_test, y_test))
 
 # Save the model for conversion
-model.export('../model/saved_model')
+model.export('public/model/saved_model')

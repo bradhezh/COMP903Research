@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TF.js Model Test</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/onnxruntime-web/dist/ort.min.js"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <!-- mjs by default; note that `"type": "module"` in package.json is for
+      Node -->
+    <script type="module" src="/src/main.tsx"></script>
+    <script>
+    async function tfjsTest() {
+
+      const sample = await fetch(`/data/sample-0.json`).then(r => r.json())
+      const pixels = sample.pixels
+      const label = sample.label
+      const input = tf.tensor(pixels).reshape([1, 28, 28, 1])
+
+      const model = await tf.loadGraphModel('/model/tfjs/model.json')
+      console.log('Model loaded!')
+      const output = model.predict(input)
+      const prediction = await output.argMax(-1).data()
+      console.log(`Prediction: ${prediction[0]}, Actual: ${label}`)
+    }
+
+    async function onnxTest() {
+      const sample = await fetch('/data/sample-0.json').then(res => res.json())
+      const pixels = Float32Array.from(sample.pixels)
+      const label = sample.label
+      const input = new ort.Tensor('float32', pixels, [1, 28, 28, 1])
+
+      const session =
+        await ort.InferenceSession.create('/model/onnx/mnist.onnx')
+      console.log('Model loaded!')
+      const output = await session.run({keras_tensor: input})
+      const scores = output[Object.keys(output)[0]].data
+      const prediction = scores.indexOf(Math.max(...scores))
+      console.log(`Prediction: ${prediction}, Actual: ${label}`)
+    }
+
+    tfjsTest()
+    onnxTest()
+  </script>
+  </body>
+</html>
