@@ -38,11 +38,11 @@ jobs:
       #  run: pnpm test
       - name: Build
         run: pnpm build
-      - name: Trigger Deployment on Render
-        #if: false
+      - name: Trigger Deployment on Vercel
+        if: false
         # only deploy on (after) pushing (merging) to "main"
-        if: ${{ github.event_name == 'push' }}
-        run: curl https://api.render.com/deploy/srv-${{ secrets.RENDER_SERVICE_ID }}?key=${{ secrets.RENDER_API_KEY }}
+        #if: ${{ github.event_name == 'push' }}
+        run: curl -X POST ${{ secrets.VERCEL_DEPLOY_HOOK_URL }}
       #- name: Generate Documentation
       #  run: pnpm run docs
       #- name: Publish Documentation to the Public Repository
