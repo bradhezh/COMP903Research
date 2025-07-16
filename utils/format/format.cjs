@@ -1,8 +1,7 @@
 const fs = require('fs')
-const path = require('path')
 const mnist = require('mnist')
 
-const {test} = mnist.set(0, 100)
+const {test} = mnist.set(0, 1000)
 const dir = 'public/data'
 fs.mkdirSync(dir, {recursive: true})
 test.forEach((e, i) => {

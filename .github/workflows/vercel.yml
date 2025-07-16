@@ -1,4 +1,4 @@
-name: Render Pipeline
+name: Vercel Pipeline
 
 on:
   push:
@@ -6,12 +6,11 @@ on:
       - main
   pull_request:
     branches: [main]
-    # opened means created
     types: [opened, synchronize]
 
 jobs:
   full:
-    name: Full Pipeline on Render
+    name: Full Pipeline on Vercel
     runs-on: ubuntu-latest
     # permissions needed to publish docs
     #permissions:
@@ -31,11 +30,6 @@ jobs:
         run: pnpm i --frozen-lockfile
       - name: Lint
         run: pnpm lint
-      #- name: Test
-      #  # flexible or sensitive for testing, as env vars in the pipeline
-      #  env:
-      #    DB_URL_TEST: ${{ secrets.DB_URL_TEST }}
-      #  run: pnpm test
       - name: Format
         run: pnpm format
       - name: Setup Python 3.12
@@ -62,6 +56,11 @@ jobs:
         shell: bash
       - name: Build
         run: pnpm build
+      #- name: Test
+      #  # flexible or sensitive for testing, as env vars in the pipeline
+      #  env:
+      #    DB_URL_TEST: ${{ secrets.DB_URL_TEST }}
+      #  run: pnpm test
       - name: Trigger Deployment on Vercel
         #if: false
         # only deploy on (after) pushing (merging) to "main"
@@ -78,5 +77,5 @@ jobs:
       #  with:
       #    personal_token: ${{ secrets.PERSONAL_TOKEN }}
       #    publish_dir: ./docs
-      #    external_repository: bradhezh/monorepo-doc
+      #    external_repository: bradhezh/comp903research-doc
       #    publish_branch: main
