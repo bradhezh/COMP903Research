@@ -14,7 +14,6 @@
     <script type="module" src="/src/main.tsx"></script>
     <script>
     async function tfjsTest() {
-
       const sample = await fetch(`/data/sample-0.json`).then(r => r.json())
       const pixels = sample.pixels
       const label = sample.label
