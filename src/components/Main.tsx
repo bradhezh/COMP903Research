@@ -69,7 +69,7 @@ export const Main = () => {
       // load
       t0 = performance.now()
       const modelOrt =
-        await ort.InferenceSession.create(`/model/onnx/mnist.onnx`)
+        await ort.InferenceSession.create(`/model/onnx/mnist.onnx?ts=${t0}`)
       await modelOrt.run({keras_tensor: inputOrt0})
       t1 = performance.now()
       const loadTimeOrt = (t1 - t0).toFixed(2)
