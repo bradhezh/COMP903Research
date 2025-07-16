@@ -1,11 +1,18 @@
-import {useState} from 'react'
 import * as tf from '@tensorflow/tfjs'
 import * as ort from 'onnxruntime-web'
+import {useState, useEffect, useRef} from 'react'
+
+import {Label} from '@/components/ui/label'
+import {Input} from '@/components/ui/input'
+import {Button} from '@/components/ui/button'
+import {Card, CardContent, CardHeader, CardTitle} from '@/components/ui/card'
+import {ScrollArea} from '@/components/ui/scroll-area'
 
 export const Main = () => {
   const [sampleCount, setSampleCount] = useState(100)
   const [running, setRunning] = useState(false)
   const [logs, setLogs] = useState<string[]>([])
+  const logRef = useRef<HTMLSpanElement | null>(null)
 
   const log = (line: string) => {
     setLogs((prev) => [...prev, line])
@@ -97,26 +104,35 @@ export const Main = () => {
     log('Benchmark complete. CSV downloaded.')
   }
 
+  useEffect(() => {
+    if (logRef.current) {
+      logRef.current.scrollIntoView({behavior: "smooth"})
+    }
+  }, [logs])
+
   return (
-    <div className="p-4 space-y-4">
-      <h1 className="text-xl font-semibold">Benchmark Tester</h1>
-      <div className="space-y-2">
-        <label className="block">Number of test samples:
-          <input className="border p-1 ml-2" type="number" value={sampleCount}
-            onChange={e => setSampleCount(parseInt(e.target.value))} />
-        </label>
-        <button
-          className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-          onClick={runBenchmark} disabled={running} >
-          {running ? 'Running...' : 'Start Benchmark'}
-        </button>
-      </div>
-      <div className="mt-4">
-        <h2 className="font-medium">Log</h2>
-        <pre className="bg-gray-100 p-2 max-h-64 overflow-auto text-sm">
-          {logs.join('\n')}
-        </pre>
-      </div>
+    <div className="h-screen flex items-center justify-center px-4">
+      <Card className="w-full max-w-xl">
+        <CardHeader><CardTitle>Benchmark Tester</CardTitle></CardHeader>
+        <CardContent className="space-y-4">
+          <div className="space-y-2">
+            <Label htmlFor="sampleCount">Number of test samples</Label>
+            <Input id="sampleCount" type="number" value={sampleCount}
+              onChange={e => setSampleCount(parseInt(e.target.value))} />
+            <Button onClick={runBenchmark} disabled={running}>
+              {running ? 'Running...' : 'Start Benchmark'}
+            </Button>
+          </div>
+          <div>
+            <h2 className="font-semibold text-sm mb-2">Log</h2>
+            <ScrollArea className="h-80 rounded border bg-muted p-2">
+              <pre className="text-sm whitespace-pre-wrap">
+                {logs.join('\n')}<span ref={logRef}></span>
+              </pre>
+            </ScrollArea>
+          </div>
+        </CardContent>
+      </Card>
     </div>
   )
 }
