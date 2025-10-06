@@ -10,11 +10,11 @@ It provides an end-to-end workflow from Python-based model training to web-based
 ## 🚀 Features
 
 - **Python pipeline** for model training (TensorFlow & PyTorch), model conversion, and data analysis.
-- **Frontend benchmarking app** built with **React (TypeScript)** to test load and inference performance directly in the browser.
+- **Frontend benchmarking app** built with React (TypeScript) to test load and inference performance directly in the browser.
 - **Node.js scripts** for dataset formatting.
 - **Performance metrics** collected for speed and accuracy.
 - **Deployed on Vercel**, enabling real-time browser benchmarking.
-- **Continuous Integration** using **GitHub Actions**.
+- **Continuous Integration** using GitHub Actions.
 
 ## 🛠️ Tech Stack
 
